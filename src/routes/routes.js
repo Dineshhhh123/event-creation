@@ -11,6 +11,7 @@ router.post('/api/events',eventController.create);
 router.post('/api/events/book',eventController.booking);
 router.post('/api/events/cancel',eventController.cancel);
 router.get('/api/events',eventController.getAll);
+router.get('/api/events/all',eventController.findAll);
 router.get('/api/events/nearby',eventController.nearby);
 router.get('/api/events/participants',eventController.participants);
 

@@ -20,7 +20,7 @@ exports.register= async (req, res) => {
       const user = new User({ name, email, password: hashedPassword, location });
       await user.save();
   
-      res.status(201).json({ message: 'User registered successfully' });
+      res.status(201).json({user, message: 'User registered successfully' });
     } catch (error) {
       res.status(500).json({ message: 'Internal server error' });
     }
@@ -40,7 +40,7 @@ exports.adregister= async (req, res) => {
       const admin = new Admin({ adminname, email, password: hashedPassword, location });
       await admin.save();
   
-      res.status(201).json({ message: 'Admin registered successfully' });
+      res.status(201).json({admin, message: 'Admin registered successfully' });
     } catch (error) {
       res.status(500).json({ message: 'Internal server error' });
     }
@@ -144,7 +144,16 @@ exports.adregister= async (req, res) => {
   }
 };
 
-  
+exports.findAll = (req, res) => {
+  Event.find({}).sort({_id:-1})
+  .then(event => {
+      res.send(event);
+  }).catch(err => {
+      res.status(500).send({
+          message: err.message || "Some error occurred while retrieving coupon details."
+      });
+  });
+}; 
   
   exports.booking= async (req, res) => {
     const { eventId, token } = req.body;
