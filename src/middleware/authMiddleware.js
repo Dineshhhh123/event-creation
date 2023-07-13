@@ -20,7 +20,7 @@ exports.authenticateUser = (req, res, next) => {
 
 exports.authorizeAdmin = (req, res, next) => {
   const token = req.headers["authorization"];
-console.log(token)
+
   if (!token) {
     return res.status(401).json({ message: 'Authentication failed: Token missing' });
   }
@@ -28,7 +28,7 @@ console.log(token)
   try {
     const decodedToken = jwt.verify(token, secretKey);
 
-    console.log(decodedToken)
+    
 
     if (!decodedToken.adminId) {
       return res.status(403).json({ message: 'Authorization failed: Admin access required' });

@@ -169,12 +169,10 @@ exports.booking = async (req, res) => {
 
 exports.cancel = async (req, res) => {
   const { eventId } = req.body;
+  const { userId } = req;
 
   try {
-    const decodedToken = jwt.verify(req.headers.authorization, 'secret_key');
-    if (!decodedToken) {
-      return res.status(401).json({ message: 'Authentication failed' });
-    }
+    
 
     const event = await Event.findById(eventId);
     if (!event) {
@@ -188,7 +186,7 @@ exports.cancel = async (req, res) => {
     }
 
     event.participants = event.participants.filter(
-      (participant) => participant.userId.toString() !== decodedToken.userId
+      (participant) => participant.userId.toString() !== userId
     );
     await event.save();
 
@@ -199,13 +197,10 @@ exports.cancel = async (req, res) => {
 };
 
 exports.getAll = async (req, res) => {
+  const { userId } = req;
   try {
-    const decodedToken = jwt.verify(req.headers.authorization, 'secret_key');
-    if (!decodedToken) {
-      return res.status(401).json({ message: 'Authentication failed' });
-    }
 
-    const events = await Event.find({ 'participants.userId': decodedToken.userId })
+    const events = await Event.find({ 'participants.userId': userId })
       .sort({ startTime: -1 })
       .populate('organizer', 'name');
 
