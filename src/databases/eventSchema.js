@@ -17,7 +17,16 @@ const EventSchema = mongoose.Schema({
           required: true
         }
       },
-    organizer: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      created: {
+        type: Date,
+        default: Date.now
+      },
+      updated:{
+        type:Date,
+        default: Date.now
+
+      },
+    organizer: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin' },
     participants: [{ userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, status: String }],
       
 

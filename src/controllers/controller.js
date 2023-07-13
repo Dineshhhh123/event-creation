@@ -99,7 +99,8 @@ exports.adregister= async (req, res) => {
   };
   
   exports.create= async (req, res) => {
-    const { title, description, startTime, endTime, location, token } = req.body;
+    const { title, description, startTime, endTime, location} = req.body;
+    const { token } = req.headers;
     
 
   try {
@@ -156,7 +157,8 @@ exports.findAll = (req, res) => {
 }; 
   
   exports.booking= async (req, res) => {
-    const { eventId, token } = req.body;
+    const { eventId } = req.body;
+    const { token } = req.headers;
   
     try {
       
