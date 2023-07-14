@@ -92,6 +92,14 @@ exports.create = async (req, res) => {
   const { title, description, startTime, endTime, location } = req.body;
   const { adminId }= req;
   try {
+    var currentStatus;
+        var currentDate=new Date().getTime()
+        var dateOne = new Date(req.body.EndTime).getTime();
+        if (currentDate < dateOne) {
+            currentStatus = "Active";
+        } else {    
+            currentStatus = "Inactive";    
+        }
     if (adminId) {
       const event = new Event({
         title,
@@ -103,17 +111,12 @@ exports.create = async (req, res) => {
           coordinates: [location.longitude, location.latitude],
         },
         organizer: adminId,
+        Status: currentStatus,
       });
       console.log(event)
 
-      event.save()
-        .then(data => {
-          res.send(data);
-        }).catch(err => {
-          res.status(500).send({
-            message: err.message || "Some error occurred while creating the Coupon."
-          });
-        });
+      const data = await event.save();
+      res.send(data);
     } else {
       res.send('Admin can only create event');
     }
@@ -122,15 +125,15 @@ exports.create = async (req, res) => {
   }
 };
 
-exports.findAll = (req, res) => {
-  Event.find({}).sort({ _id: -1 })
-    .then(event => {
-      res.send(event);
-    }).catch(err => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while retrieving coupon details."
-      });
+exports.findAll = async (req, res) => {
+  try {
+    const events = await Event.find({}).sort({ _id: -1 });
+    res.send(events);
+  } catch (error) {
+    res.status(500).send({
+      message: error.message || "Some error occurred while retrieving event details."
     });
+  }
 };
 
 exports.booking = async (req, res) => {
