@@ -32,7 +32,6 @@ const EventSchema = mongoose.Schema({
       
 
 });
-// Add 2dsphere index on the location field in the Event schema
 EventSchema.index({ location: '2dsphere' });
 
 
