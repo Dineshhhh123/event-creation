@@ -23,24 +23,7 @@ exports.register = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
-// exports.register = async (req, res) => {
-//   const { name, email, password, location } = req.body;
 
-//   try {
-//     const existingUser = await User.findOne({ email });
-//     if (existingUser) {
-//       return res.status(409).json({ message: 'User already exists' });
-//     }
-
-//     const hashedPassword = await bcrypt.hash(password, 10);
-//     const user = new User({ name, email, password: hashedPassword, location });
-//     await user.save();
-
-//     res.status(201).json({ user, message: 'User registered successfully' });
-//   } catch (error) {
-//     res.status(500).json({ message: 'Internal server error' });
-//   }
-// };
 exports.adregister = async (req, res) => {
   const { adminname, email, password, location } = req.body;
 
